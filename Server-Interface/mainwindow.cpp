@@ -102,7 +102,7 @@ void MainWindow::slotReadyRead(int index)
 
         qDebug() << strInf;
 
-        if(strInf.split(" ").size() > 2 ){
+        if(strInf.split(" ").size() >= 2 ){
             for(int i = 0 ; i < listUser->size() ; i++){
 
                 qDebug() <<"asdasds  " <<strInf.split(" ").at(1);
@@ -175,6 +175,29 @@ void MainWindow::slotReadyRead(int index)
         send( list->at(index)->socketDescriptor(),st.toUtf8(),st.size(),0);
 
 
+    }
+    else if(process == "5"){
+
+        QString doktormesaj;
+
+
+        list->at(index)->waitForReadyRead(11000);
+
+        doktormesaj = list->at(index)->readAll();
+
+        qDebug() << doktormesaj;
+    }
+
+    else if(process == "6"){
+
+        QString hemsiremesaj;
+
+
+        list->at(index)->waitForReadyRead(11000);
+
+        hemsiremesaj = list->at(index)->readAll();
+
+        qDebug() << hemsiremesaj;
     }
 
 
@@ -281,4 +304,12 @@ void MainWindow::parserUser()
 void MainWindow::on_pushButton_clicked()
 {
     qDebug() << "butona basildi\n";
+
+    ui->stackedWidget->setCurrentIndex(1);
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
