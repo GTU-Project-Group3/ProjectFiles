@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <fstream>
 #include <QByteArray>
+#include<QTableWidgetItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,6 +37,57 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     connect(server, SIGNAL(newConnection()), this, SLOT(slotNewConnection()));
     connect(mapper, SIGNAL(mapped(int)), this, SLOT(slotReadyRead(int)));
+
+    //table olusturulmasi
+    ui->TableHasta->setColumnCount(6);
+    ui->TableHasta->setRowCount(listPatient->size());
+    QTableWidgetItem *header1 = new QTableWidgetItem("Name");
+    ui->TableHasta->setHorizontalHeaderItem(0,header1);
+    QTableWidgetItem *header2 = new QTableWidgetItem("Surname");
+    ui->TableHasta->setHorizontalHeaderItem(1,header2);
+    QTableWidgetItem *header3 = new QTableWidgetItem("Heart");
+    ui->TableHasta->setHorizontalHeaderItem(2,header3);
+    QTableWidgetItem *header4 = new QTableWidgetItem("Blood");
+    ui->TableHasta->setHorizontalHeaderItem(3,header4);
+    QTableWidgetItem *header5 = new QTableWidgetItem("Glikoz");
+    ui->TableHasta->setHorizontalHeaderItem(4,header5);
+    QTableWidgetItem *header6 = new QTableWidgetItem("Update");
+    ui->TableHasta->setHorizontalHeaderItem(5,header6);
+    //hucrelere label eklenmesi
+    for (int var = 0; var < listPatient->size(); ++var) {
+        QLabel * label = new QLabel(ui->TableHasta);
+        label->setText(listPatient->at(var)->getName());
+        label->setAlignment(Qt::AlignCenter);
+        ui->TableHasta->setCellWidget(var,0,label); // isimleri set etme
+        /* ** **    *   *   *   *       *   *   */
+        QLabel * Surname = new QLabel(ui->TableHasta);
+        Surname->setText(listPatient->at(var)->getSurname());
+        Surname->setAlignment(Qt::AlignCenter);
+        ui->TableHasta->setCellWidget(var,1,Surname); // soy isimleri set etme
+        /*  *   *   *   *   *   *   *   *       *   **/
+        QTableWidgetItem * kalp = new QTableWidgetItem();
+        kalp->setText(listPatient->at(var)->getKalp());
+
+        ui->TableHasta->setItem(var,2,kalp); // kalpler set etme
+        /*  *   *   *   *   *   *   *   *       *   **/
+        QTableWidgetItem * kan = new QTableWidgetItem();
+        kan->setText(listPatient->at(var)->getKan());
+
+        ui->TableHasta->setItem(var,3,kan); // kan set etme
+        /*  *   *   *   *   *   *   *   *       *   **/
+        QTableWidgetItem * seker = new QTableWidgetItem();
+        seker->setText(listPatient->at(var)->getSeker());
+
+        ui->TableHasta->setItem(var,4,seker); // kan set etme
+        /*  *   *   *   *   *   *   *   *       *   **/
+        QTableWidgetItem * gonder = new QTableWidgetItem();
+        gonder->setText("Update");
+        //gonder->setAlignment(Qt::AlignCenter);
+        ui->TableHasta->setItem(var,5,gonder); // Gonder set etme
+
+    }
+
+
 
 }
 
@@ -227,7 +279,7 @@ qDebug() << st1;
 }
 void MainWindow::parserPatient()
 {
-    ifstream file("/home/akilok/MytestingServerInterface/patients.csv");
+    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/patients.csv");
 
     QString temp;
     string temp1;
@@ -252,7 +304,7 @@ void MainWindow::parserPatient()
 }
 void MainWindow::parserNursePatient()
 {
-    ifstream file("/home/akilok/MytestingServerInterface/nursePatient.csv");
+    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/nursePatient.csv");
 
     QString temp;
     string temp1;
@@ -278,7 +330,7 @@ void MainWindow::parserNursePatient()
 
 void MainWindow::parserUser()
 {
-    ifstream file("/home/akilok/MytestingServerInterface/users.csv");
+    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/users.csv");
 
     QString temp;
     string temp1;
@@ -313,3 +365,5 @@ void MainWindow::on_pushButton_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+

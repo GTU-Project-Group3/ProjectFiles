@@ -13,6 +13,7 @@
 #include <QList>
 #include <QString>
 #include "mythread.h"
+#include <QTableWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +29,7 @@ public:
     void parserUser();
     void parserPatient();
     void parserNursePatient();
-
+    QList<Patient*> *listPatient;
 
 private:
     Ui::MainWindow *ui;
@@ -38,7 +39,7 @@ private:
 
     QList<QTcpSocket*> *list;
 
-    QList<Patient*> *listPatient;
+
     QList<User*> *listUser;
     QList<nursePatient*> *listNursePatient;
 
@@ -52,6 +53,7 @@ private slots:
     void slotReadyRead(int index);
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_TableHasta_itemPressed(QTableWidgetItem *item);
 };
 
 
