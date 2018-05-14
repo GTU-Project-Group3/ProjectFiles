@@ -30,4 +30,5 @@ FORMS    += mainwindow.ui
 DISTFILES += \
     users.csv \
     patients.csv \
-    nursePatient.csv
+    nursePatient.csv \
+    update.png

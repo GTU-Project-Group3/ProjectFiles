@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     listUser = new QList<User*>;
 
 
-
     parserPatient();
     parserUser();
     parserNursePatient();
@@ -42,49 +41,61 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->TableHasta->setColumnCount(6);
     ui->TableHasta->setRowCount(listPatient->size());
     QTableWidgetItem *header1 = new QTableWidgetItem("Name");
+    header1->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(0,header1);
     QTableWidgetItem *header2 = new QTableWidgetItem("Surname");
+    header2->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(1,header2);
     QTableWidgetItem *header3 = new QTableWidgetItem("Heart");
+    header3->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(2,header3);
     QTableWidgetItem *header4 = new QTableWidgetItem("Blood");
+    header4->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(3,header4);
     QTableWidgetItem *header5 = new QTableWidgetItem("Glikoz");
+    header5->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(4,header5);
     QTableWidgetItem *header6 = new QTableWidgetItem("Update");
+    header6->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(5,header6);
     //hucrelere label eklenmesi
     for (int var = 0; var < listPatient->size(); ++var) {
         QLabel * label = new QLabel(ui->TableHasta);
+        label->setStyleSheet("font-weight: bold;");
         label->setText(listPatient->at(var)->getName());
         label->setAlignment(Qt::AlignCenter);
+
         ui->TableHasta->setCellWidget(var,0,label); // isimleri set etme
         /* ** **    *   *   *   *       *   *   */
         QLabel * Surname = new QLabel(ui->TableHasta);
         Surname->setText(listPatient->at(var)->getSurname());
+        Surname->setStyleSheet("font-weight: bold;");
         Surname->setAlignment(Qt::AlignCenter);
         ui->TableHasta->setCellWidget(var,1,Surname); // soy isimleri set etme
         /*  *   *   *   *   *   *   *   *       *   **/
         QTableWidgetItem * kalp = new QTableWidgetItem();
         kalp->setText(listPatient->at(var)->getKalp());
-
+        kalp->setTextAlignment(Qt::AlignCenter);
         ui->TableHasta->setItem(var,2,kalp); // kalpler set etme
         /*  *   *   *   *   *   *   *   *       *   **/
         QTableWidgetItem * kan = new QTableWidgetItem();
         kan->setText(listPatient->at(var)->getKan());
-
+        kan->setTextAlignment(Qt::AlignCenter);
         ui->TableHasta->setItem(var,3,kan); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
         QTableWidgetItem * seker = new QTableWidgetItem();
         seker->setText(listPatient->at(var)->getSeker());
-
+        seker->setTextAlignment(Qt::AlignCenter);
         ui->TableHasta->setItem(var,4,seker); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
-        QTableWidgetItem * gonder = new QTableWidgetItem();
-        gonder->setText("Update");
-        //gonder->setAlignment(Qt::AlignCenter);
-        ui->TableHasta->setItem(var,5,gonder); // Gonder set etme
 
+        QPixmap iconn("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/update.png");
+
+        QLabel *gonder = new QLabel(ui->TableHasta);
+        gonder->setPixmap(iconn);
+        gonder->setAlignment(Qt::AlignCenter);
+        ui->TableHasta->setCellWidget(var,5,gonder); // Gonder set etme
+        /* table css uygulanmasi */
     }
 
 
@@ -367,3 +378,24 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 
+
+void MainWindow::on_TableHasta_cellClicked(int row, int column)
+{
+    if(column == 5){//update buttona tiklandi ise
+
+        QString kan =  ui->TableHasta->item(row,2)->text();
+        QString kalp =  ui->TableHasta->item(row,3)->text();
+        QString seker = ui->TableHasta->item(row,4)->text();
+        qDebug() <<listPatient->at(row)->getSeker(); // isim bu
+        listPatient->at(row)->setKan(kan);
+        listPatient->at(row)->setKalp(kalp);
+        listPatient->at(row)->setSeker(seker);
+         qDebug() <<"son hali:"<<listPatient->at(row)->getSeker(); // isim bu
+        qDebug()<<kan<<kalp<<seker;//update edildi sıkıntılı durum var ise clienta bildirilir
+
+    }
+
+
+
+
+}

@@ -53,8 +53,8 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(542, 389);
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        MainWindow->resize(662, 450);
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
@@ -79,9 +79,10 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
         pushButton_3 = new QPushButton(page);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
@@ -91,8 +92,14 @@ public:
 
         label = new QLabel(page);
         label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
         label->setStyleSheet(QLatin1String("color:rgb(52, 101, 164);\n"
 "font: 75 italic 12pt \"Noto Sans\";\n"
+"height:12pt;\n"
 ""));
         label->setTextFormat(Qt::AutoText);
         label->setAlignment(Qt::AlignCenter);
@@ -103,6 +110,7 @@ public:
         pushButton->setObjectName(QStringLiteral("pushButton"));
         sizePolicy1.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
         pushButton->setSizePolicy(sizePolicy1);
+        pushButton->setStyleSheet(QStringLiteral("height:10;"));
 
         horizontalLayout_2->addWidget(pushButton);
 
@@ -112,17 +120,25 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
         TableHasta = new QTableWidget(page);
         TableHasta->setObjectName(QStringLiteral("TableHasta"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(TableHasta->sizePolicy().hasHeightForWidth());
-        TableHasta->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(TableHasta->sizePolicy().hasHeightForWidth());
+        TableHasta->setSizePolicy(sizePolicy3);
+        TableHasta->setMaximumSize(QSize(16777215, 16777215));
+        QFont font;
+        font.setBold(true);
+        font.setWeight(75);
+        TableHasta->setFont(font);
         TableHasta->setLayoutDirection(Qt::LeftToRight);
-        TableHasta->setAutoFillBackground(false);
+        TableHasta->setAutoFillBackground(true);
+        TableHasta->setStyleSheet(QLatin1String("color: rgb(32, 74, 135);\n"
+""));
         TableHasta->setAutoScroll(false);
-        TableHasta->setSelectionMode(QAbstractItemView::SingleSelection);
+        TableHasta->setSelectionMode(QAbstractItemView::NoSelection);
         TableHasta->setGridStyle(Qt::SolidLine);
         TableHasta->setSortingEnabled(true);
         TableHasta->setWordWrap(true);
@@ -149,7 +165,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 542, 22));
+        menuBar->setGeometry(QRect(0, 0, 662, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));

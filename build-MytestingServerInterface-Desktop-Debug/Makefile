@@ -66,6 +66,7 @@ OBJECTS       = main.o \
 DIST          = ../Server-Interface/users.csv \
 		../Server-Interface/patients.csv \
 		../Server-Interface/nursePatient.csv \
+		../Server-Interface/update.png \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
