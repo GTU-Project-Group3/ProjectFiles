@@ -43,6 +43,11 @@ private:
     QList<User*> *listUser;
     QList<nursePatient*> *listNursePatient;
 
+    QList<qintptr> *doktorsocketid;
+    QList<qintptr> *hemsiresocketid;
+
+
+
     QSignalMapper *mapper;
     int onlineD = 0;
     int onlineH = 0;
