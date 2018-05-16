@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    t.start();
 
     qDebug() << " ı am in main thread";
-    QIcon right("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/right.png");
-    QIcon left("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/left.png");
+    QIcon right("/home/akilok/Desktop/ProjectFiles/Server-Interface/right.png");
+    QIcon left("/home/akilok/Desktop/ProjectFiles/Server-Interface/left.png");
     ui->right->setIcon(right);
     ui->right->setStyleSheet("border:0pt;");
     ui->left->setIcon(left);
@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     listNursePatient = new QList<nursePatient*>;
     listUser = new QList<User*>;
 
+    doktorsocketid = new QList<qintptr>;
+    hemsiresocketid = new QList<qintptr>;
 
     parserPatient();
     parserUser();
@@ -94,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->TableHasta->setItem(var,4,seker); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
 
-        QPixmap iconn("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/update.png");
+        QPixmap iconn("/home/akilok/Desktop/ProjectFiles/Server-Interface/update.png");
 
         QLabel *gonder = new QLabel(ui->TableHasta);
         gonder->setPixmap(iconn);
@@ -130,9 +132,14 @@ void MainWindow::slotNewConnection()
     //with the property (list->length()-1) defined in the line above
     connect(list->last(), SIGNAL(readyRead()), mapper, SLOT(map()));
 
-    QString str = "5";
+    QString str = QString::number(doktorsocketid->size()) + "," + QString::number(hemsiresocketid->size());
 
-    list->last()->write(QString::number(onlineD+1).toUtf8());
+
+   // list->last()->write(QString::number(doktorsocketid->size()).toUtf8());
+
+    //    send( list->last()->socketDescriptor(),QString::number(doktorsocketid->size()).toUtf8(),sizeof(char)*1024,0);
+
+    list->last()->write(str.toUtf8());
 
 }
 
@@ -188,6 +195,8 @@ void MainWindow::slotReadyRead(int index)
                         ind = hastaind.toInt();
                         ind = ind % listPatient->size();
 
+                        doktorsocketid->append(list->at(index)->socketDescriptor());
+
                         qDebug() << "gelen index" <<ind;
                         if(ind < 0)
                             ind += listPatient->size();
@@ -205,6 +214,7 @@ void MainWindow::slotReadyRead(int index)
                         ind1 = hastaind1.toInt();
                         ind1 = ind1 % listNursePatient->size();
 
+                        hemsiresocketid->append(list->at(index)->socketDescriptor());
                         qDebug() << "gelen index" <<ind1;
                         if(ind1 < 0)
                             ind1 += listNursePatient->size();
@@ -243,29 +253,53 @@ void MainWindow::slotReadyRead(int index)
         send( list->at(index)->socketDescriptor(),st.toUtf8(),st.size(),0);
 
 
+
     }
     else if(process == "5"){
 
         QString doktormesaj;
 
 
-        list->at(index)->waitForReadyRead(11000);
+        for(int i = 0 ; i < list->size(); i++){
 
-        doktormesaj = list->at(index)->readAll();
+            for(int j = 0 ; j < doktorsocketid->size() ; j++){
+                if(list->at(i)->socketDescriptor() == doktorsocketid->at(j)){
+                     list->at(i)->waitForReadyRead(11000);
+                     doktormesaj = list->at(i)->readAll();
+                     qDebug() << doktormesaj;
+                     break;
+                }
+            }
+        }
 
-        qDebug() << doktormesaj;
+       // list->at(index)->waitForReadyRead(11000);
+
+     //   doktormesaj = list->at(index)->readAll();
+
+       // qDebug() << doktormesaj;
     }
 
     else if(process == "6"){
 
         QString hemsiremesaj;
 
+        for(int i = 0 ; i < list->size(); i++){
 
-        list->at(index)->waitForReadyRead(11000);
+            for(int j = 0 ; j < hemsiresocketid->size() ; j++){
+                if(list->at(i)->socketDescriptor() == hemsiresocketid->at(j)){
+                     list->at(i)->waitForReadyRead(11000);
+                     hemsiremesaj = list->at(i)->readAll();
+                     qDebug() << hemsiremesaj;
+                     break;
+                }
+            }
+        }
 
-        hemsiremesaj = list->at(index)->readAll();
+      //  list->at(index)->waitForReadyRead(11000);
 
-        qDebug() << hemsiremesaj;
+      //  hemsiremesaj = list->at(index)->readAll();
+
+       // qDebug() << hemsiremesaj;
     }
 
 
@@ -295,7 +329,7 @@ qDebug() << st1;
 }
 void MainWindow::parserPatient()
 {
-    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/patients.csv");
+    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/patients.csv");
 
     QString temp;
     string temp1;
@@ -320,7 +354,7 @@ void MainWindow::parserPatient()
 }
 void MainWindow::parserNursePatient()
 {
-    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/nursePatient.csv");
+    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/nursePatient.csv");
 
     QString temp;
     string temp1;
@@ -346,7 +380,7 @@ void MainWindow::parserNursePatient()
 
 void MainWindow::parserUser()
 {
-    ifstream file("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/users.csv");
+    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/users.csv");
 
     QString temp;
     string temp1;
@@ -396,7 +430,14 @@ void MainWindow::on_TableHasta_cellClicked(int row, int column)
         temp ="ACIL DURUM\n"+listPatient->at(row)->getName()+"\n"+kan+"\n"+kalp+"\n"+seker;
         qDebug()<<temp;
 
-        send( list->at(0)->socketDescriptor(),temp.toUtf8(),temp.size(),0);
+
+
+        if(hemsiresocketid->size() != 0 )
+            send( hemsiresocketid->last(),temp.toUtf8(),temp.size(),0);
+
+        if(doktorsocketid->size() != 0)
+            send( doktorsocketid->last(),temp.toUtf8(),temp.size(),0);
+
     }
 
 
