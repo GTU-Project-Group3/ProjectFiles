@@ -31,4 +31,6 @@ DISTFILES += \
     users.csv \
     patients.csv \
     nursePatient.csv \
-    update.png
+    update.png \
+    right.png \
+    left.png

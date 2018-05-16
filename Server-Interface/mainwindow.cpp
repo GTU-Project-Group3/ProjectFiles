@@ -13,7 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
 //    t.start();
 
     qDebug() << " ı am in main thread";
-
+    QIcon right("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/right.png");
+    QIcon left("/home/oem/Desktop/server_arayuz/ProjectFiles/Server-Interface/left.png");
+    ui->right->setIcon(right);
+    ui->right->setStyleSheet("border:0pt;");
+    ui->left->setIcon(left);
+    ui->left->setStyleSheet("border:0pt;");
     server = new QTcpServer(this);
     list = new QList<QTcpSocket*>;
 
@@ -372,11 +377,6 @@ void MainWindow::on_pushButton_clicked()
 
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
 
 
 void MainWindow::on_TableHasta_cellClicked(int row, int column)
@@ -390,12 +390,21 @@ void MainWindow::on_TableHasta_cellClicked(int row, int column)
         listPatient->at(row)->setKan(kan);
         listPatient->at(row)->setKalp(kalp);
         listPatient->at(row)->setSeker(seker);
-         qDebug() <<"son hali:"<<listPatient->at(row)->getSeker(); // isim bu
+        qDebug() <<"son hali:"<<listPatient->at(row)->getSeker(); // isim bu
         qDebug()<<kan<<kalp<<seker;//update edildi sıkıntılı durum var ise clienta bildirilir
+        QString temp;
+        temp ="ACIL DURUM\n"+listPatient->at(row)->getName()+"\n"+kan+"\n"+kalp+"\n"+seker;
+        qDebug()<<temp;
 
+        send( list->at(0)->socketDescriptor(),temp.toUtf8(),temp.size(),0);
     }
 
 
 
 
+}
+
+void MainWindow::on_right_clicked()
+{
+ ui->stackedWidget->setCurrentIndex(1);
 }

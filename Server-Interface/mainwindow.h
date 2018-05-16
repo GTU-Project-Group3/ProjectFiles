@@ -56,6 +56,7 @@ private slots:
     void on_TableHasta_itemPressed(QTableWidgetItem *item);
     void on_TableHasta_cellChanged(int row, int column);
     void on_TableHasta_cellClicked(int row, int column);
+    void on_right_clicked();
 };
 
 
