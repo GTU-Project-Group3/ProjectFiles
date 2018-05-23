@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    t.start();
 
     qDebug() << " ı am in main thread";
-    QIcon right("/home/akilok/Desktop/ProjectFiles/Server-Interface/right.png");
-    QIcon left("/home/akilok/Desktop/ProjectFiles/Server-Interface/left.png");
+    QIcon right("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/right.png");
+    QIcon left("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/left.png");
     ui->right->setIcon(right);
     ui->right->setStyleSheet("border:0pt;");
     ui->left->setIcon(left);
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->TableHasta->setItem(var,4,seker); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
 
-        QPixmap iconn("/home/akilok/Desktop/ProjectFiles/Server-Interface/update.png");
+        QPixmap iconn("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/update.png");
 
         QLabel *gonder = new QLabel(ui->TableHasta);
         gonder->setPixmap(iconn);
@@ -267,6 +267,11 @@ void MainWindow::slotReadyRead(int index)
                      list->at(i)->waitForReadyRead(11000);
                      doktormesaj = list->at(i)->readAll();
                      qDebug() << doktormesaj;
+
+                     if (hemsiresocketid->size() != 0){
+                         send( hemsiresocketid->at(0),doktormesaj.toUtf8(),doktormesaj.size(),0);
+
+                     }
                      break;
                 }
             }
@@ -283,6 +288,8 @@ void MainWindow::slotReadyRead(int index)
 
         QString hemsiremesaj;
 
+        //list->at(i)->ConnectingState
+
         for(int i = 0 ; i < list->size(); i++){
 
             for(int j = 0 ; j < hemsiresocketid->size() ; j++){
@@ -290,6 +297,10 @@ void MainWindow::slotReadyRead(int index)
                      list->at(i)->waitForReadyRead(11000);
                      hemsiremesaj = list->at(i)->readAll();
                      qDebug() << hemsiremesaj;
+                     if (doktorsocketid->size() != 0){
+                         send( doktorsocketid->at(0),hemsiremesaj.toUtf8(),hemsiremesaj.size(),0);
+
+                     }
                      break;
                 }
             }
@@ -319,17 +330,15 @@ void MainWindow::slotReadyRead(int index)
             hastaindexiNurse += listNursePatient->size();
         }
         QString st1= listNursePatient->at(hastaindexiNurse)->stringfunction();
-qDebug() << st1;
+        qDebug() << st1;
         send( list->at(index)->socketDescriptor(),st1.toUtf8(),st1.size(),0);
     }
-
-
 
 
 }
 void MainWindow::parserPatient()
 {
-    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/patients.csv");
+    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/patients.csv");
 
     QString temp;
     string temp1;
@@ -354,7 +363,7 @@ void MainWindow::parserPatient()
 }
 void MainWindow::parserNursePatient()
 {
-    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/nursePatient.csv");
+    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/nursePatient.csv");
 
     QString temp;
     string temp1;
@@ -380,7 +389,7 @@ void MainWindow::parserNursePatient()
 
 void MainWindow::parserUser()
 {
-    ifstream file("/home/akilok/Desktop/ProjectFiles/Server-Interface/users.csv");
+    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/users.csv");
 
     QString temp;
     string temp1;
@@ -431,6 +440,11 @@ void MainWindow::on_TableHasta_cellClicked(int row, int column)
         qDebug()<<temp;
 
 
+        //BURADA DOKTOR VE HEMSIRE SAYISI DA YOLLANACAK.
+
+        //BELLI DEGERLER KONTROL EDILECEK ONA GORE DOKTOR VEYA HEMSIREYE GONDERILECEK.
+
+
 
         if(hemsiresocketid->size() != 0 )
             send( hemsiresocketid->last(),temp.toUtf8(),temp.size(),0);
@@ -447,5 +461,18 @@ void MainWindow::on_TableHasta_cellClicked(int row, int column)
 
 void MainWindow::on_right_clicked()
 {
- ui->stackedWidget->setCurrentIndex(1);
+    int index = ui->stackedWidget->currentIndex();
+    int size = ui->stackedWidget->size().height();
+    index++;
+    index = index % size;
+ ui->stackedWidget->setCurrentIndex(index);
+}
+
+void MainWindow::on_left_clicked()
+{
+    int index = ui->stackedWidget->currentIndex();
+    int size = ui->stackedWidget->size().height();
+    index--;
+    index = index % size;
+ ui->stackedWidget->setCurrentIndex(index);
 }

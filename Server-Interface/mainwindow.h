@@ -62,6 +62,7 @@ private slots:
     void on_TableHasta_cellChanged(int row, int column);
     void on_TableHasta_cellClicked(int row, int column);
     void on_right_clicked();
+    void on_left_clicked();
 };
 
 
