@@ -83,22 +83,49 @@ MainWindow::MainWindow(QWidget *parent) :
     header6->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(5,header6);
 
+    QTableWidgetItem *headerJob = new QTableWidgetItem("Job");
+    headerJob->setTextColor(QColor(46, 52, 54));
 
-    ui->TableDoktor->setColumnCount(6);
+    QTableWidgetItem *onlineStatus = new QTableWidgetItem("Status");
+    onlineStatus->setTextColor(QColor(46, 52, 54));
 
-    ui->TableDoktor->setRowCount(listPatient->size());
+    int rowSizeForUser = listUser->size();
 
-    ui->TableDoktor->setHorizontalHeaderItem(0,header1);
+    ui->TableDoktor->setColumnCount(4);
 
-    ui->TableDoktor->setHorizontalHeaderItem(1,header2);
+    ui->TableDoktor->setRowCount(rowSizeForUser);
 
-    ui->TableDoktor->setHorizontalHeaderItem(2,header3);
+    ui->TableDoktor->setHorizontalHeaderItem(0,headerJob);
 
-    ui->TableDoktor->setHorizontalHeaderItem(3,header4);
+    ui->TableDoktor->setHorizontalHeaderItem(1,header1);
 
-    ui->TableDoktor->setHorizontalHeaderItem(4,header5);
+    ui->TableDoktor->setHorizontalHeaderItem(2,header2);
 
-    ui->TableDoktor->setHorizontalHeaderItem(5,header6);
+    ui->TableDoktor->setHorizontalHeaderItem(3,onlineStatus);
+
+
+    for(int s = 0 ; s < listUser->size(); s++){
+
+        QLabel * Job= new QLabel(ui->TableDoktor);
+        Job->setStyleSheet("font-weight: bold;");
+        Job->setText(listUser->at(s)->getJob());
+        Job->setAlignment(Qt::AlignCenter);
+        ui->TableDoktor->setCellWidget(s,0,Job);
+
+        QLabel * userName= new QLabel(ui->TableDoktor);
+        userName->setStyleSheet("font-weight: bold;");
+        userName->setText(listUser->at(s)->getName());
+        userName->setAlignment(Qt::AlignCenter);
+        ui->TableDoktor->setCellWidget(s,1,userName);
+
+        QLabel * userSurname= new QLabel(ui->TableDoktor);
+        userSurname->setStyleSheet("font-weight: bold;");
+        userSurname->setText(listUser->at(s)->getSurname());
+        userSurname->setAlignment(Qt::AlignCenter);
+        ui->TableDoktor->setCellWidget(s,2,userSurname);
+    }
+
+
 
 
     //hucrelere label eklenmesi
@@ -152,6 +179,16 @@ MainWindow::~MainWindow()
     server->close();
     delete list;
     delete ui;
+
+    delete timeEdit;
+
+    delete listUser;
+    delete listNursePatient;
+    delete listPatient;
+
+    delete doktorsocketid;
+    delete hemsiresocketid;
+
 }
 
 

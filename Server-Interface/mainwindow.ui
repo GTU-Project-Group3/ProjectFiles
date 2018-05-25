@@ -103,7 +103,7 @@ height:12pt;
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QTableWidget" name="TableDoktor">
+             <widget class="QTableWidget" name="Activities">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -113,7 +113,7 @@ height:12pt;
              </widget>
             </item>
             <item>
-             <widget class="QTableWidget" name="TableHemsire">
+             <widget class="QTableWidget" name="TableDoktor">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>

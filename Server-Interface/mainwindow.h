@@ -30,7 +30,7 @@ public:
     void parserUser();
     void parserPatient();
     void parserNursePatient();
-    QList<Patient*> *listPatient;
+
 
 private:
     Ui::MainWindow *ui;
@@ -43,6 +43,7 @@ private:
 
     QList<User*> *listUser;
     QList<nursePatient*> *listNursePatient;
+    QList<Patient*> *listPatient;
 
     QList<qintptr> *doktorsocketid;
     QList<qintptr> *hemsiresocketid;
