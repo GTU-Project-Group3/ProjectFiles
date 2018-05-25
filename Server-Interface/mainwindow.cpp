@@ -123,6 +123,12 @@ MainWindow::MainWindow(QWidget *parent) :
         userSurname->setText(listUser->at(s)->getSurname());
         userSurname->setAlignment(Qt::AlignCenter);
         ui->TableDoktor->setCellWidget(s,2,userSurname);
+
+        QLabel * status= new QLabel(ui->TableDoktor);
+        status->setStyleSheet("font-weight: bold;");
+        status->setText("offline");
+        status->setAlignment(Qt::AlignCenter);
+        ui->TableDoktor->setCellWidget(s,3,status);
     }
 
 
@@ -296,6 +302,13 @@ void MainWindow::slotReadyRead(int index)
 
                     qDebug() <<"asdasds  " <<strInf.split(" ").at(1);
                     if(listUser->at(i)->getJob() == "Doctor"){
+
+                        QLabel * status= new QLabel(ui->TableDoktor);
+                        status->setStyleSheet("font-weight: bold;");
+                        status->setText("online");                      // online durumu arayuze yaziliyor.
+                        status->setAlignment(Qt::AlignCenter);
+                        ui->TableDoktor->setCellWidget(i,3,status);
+
                          onlineD++;
                         qDebug() << "Girdi";
                         send( list->at(index)->socketDescriptor(),&d,sizeof(char),0);
@@ -317,6 +330,14 @@ void MainWindow::slotReadyRead(int index)
                         control = false;
                         break;
                     }else if(listUser->at(i)->getJob() == "Hemsire"){
+
+                        QLabel * status= new QLabel(ui->TableDoktor);
+                        status->setStyleSheet("font-weight: bold;");
+                        status->setText("online");                      // online durumu arayuze yaziliyor.
+                        status->setAlignment(Qt::AlignCenter);
+                        ui->TableDoktor->setCellWidget(i,3,status);
+
+
                          onlineH++;
                         send( list->at(index)->socketDescriptor(),&n,sizeof(char),0);
                         list->at(index)->waitForReadyRead(2000);
