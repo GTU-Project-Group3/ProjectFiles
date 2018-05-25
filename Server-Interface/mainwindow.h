@@ -14,6 +14,7 @@
 #include <QString>
 #include "mythread.h"
 #include <QTableWidgetItem>
+#include <QTimeEdit>
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +39,7 @@ private:
     QTcpSocket *socket;
 
     QList<QTcpSocket*> *list;
-
+    QTimeEdit* timeEdit;
 
     QList<User*> *listUser;
     QList<nursePatient*> *listNursePatient;

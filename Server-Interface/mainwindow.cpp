@@ -3,6 +3,11 @@
 #include <fstream>
 #include <QByteArray>
 #include<QTableWidgetItem>
+#include <QTime>
+#include <QTimeEdit>
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,6 +33,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     doktorsocketid = new QList<qintptr>;
     hemsiresocketid = new QList<qintptr>;
+
+    timeEdit = new QTimeEdit();
+
+   // QTimeEdit* timeEdit = new QTimeEdit();  // created the object
+
+     // write code to initialize QTimeEdit as per your requirement
+
+     // Put below code wherever you want to read QTimeEdit Data
+
+     QTime enTime = timeEdit->time();
+     qDebug() << enTime.toString();
+
 
     parserPatient();
     parserUser();
@@ -65,6 +82,25 @@ MainWindow::MainWindow(QWidget *parent) :
     QTableWidgetItem *header6 = new QTableWidgetItem("Update");
     header6->setTextColor(QColor(46, 52, 54));
     ui->TableHasta->setHorizontalHeaderItem(5,header6);
+
+
+    ui->TableDoktor->setColumnCount(6);
+
+    ui->TableDoktor->setRowCount(listPatient->size());
+
+    ui->TableDoktor->setHorizontalHeaderItem(0,header1);
+
+    ui->TableDoktor->setHorizontalHeaderItem(1,header2);
+
+    ui->TableDoktor->setHorizontalHeaderItem(2,header3);
+
+    ui->TableDoktor->setHorizontalHeaderItem(3,header4);
+
+    ui->TableDoktor->setHorizontalHeaderItem(4,header5);
+
+    ui->TableDoktor->setHorizontalHeaderItem(5,header6);
+
+
     //hucrelere label eklenmesi
     for (int var = 0; var < listPatient->size(); ++var) {
         QLabel * label = new QLabel(ui->TableHasta);
@@ -156,6 +192,44 @@ void MainWindow::slotReadyRead(int index)
 
     qDebug() << process;
    // processing = (tr(template1)).toInt();
+
+
+    QTime enTime = timeEdit->time();
+    qDebug() << enTime.toString();
+
+
+    for(int j = 0 ; j < listNursePatient->size() ;j++){
+        int valuePansuman = listNursePatient->at(j)->getPansuman().toInt();
+        int valueTansiyon = listNursePatient->at(j)->getTansiyon().toInt();
+        listNursePatient->at(j)->setPansuman( QString::number( valuePansuman - enTime.minute() ) );
+        listNursePatient->at(j)->setTansiyon(  QString::number(valueTansiyon- enTime.minute() ) );
+    }
+
+
+    for(int k = 0 ; k < list->size();k++){
+        if( list->at(k)->state() == QTcpSocket::UnconnectedState ){
+
+            for(int l = 0 ; l < doktorsocketid->size(); l++){
+
+                if(list->at(k)->socketDescriptor() == doktorsocketid->at(l)){
+                    doktorsocketid->removeAt(l);
+                    break;
+                }
+
+            }
+
+            for(int m = 0 ; m < hemsiresocketid->size(); m++){
+
+                if(list->at(k)->socketDescriptor() == hemsiresocketid->at(m)){
+                    hemsiresocketid->removeAt(m);
+                    break;
+                }
+
+            }
+
+
+        }
+    }
 
 
     if(process == "1"){
@@ -335,6 +409,9 @@ void MainWindow::slotReadyRead(int index)
     }
 
 
+
+
+
 }
 void MainWindow::parserPatient()
 {
@@ -436,7 +513,12 @@ void MainWindow::on_TableHasta_cellClicked(int row, int column)
         qDebug() <<"son hali:"<<listPatient->at(row)->getSeker(); // isim bu
         qDebug()<<kan<<kalp<<seker;//update edildi sıkıntılı durum var ise clienta bildirilir
         QString temp;
-        temp ="ACIL DURUM\n"+listPatient->at(row)->getName()+"\n"+kan+"\n"+kalp+"\n"+seker;
+        int hemsiresayisi = hemsiresocketid->size();
+        int doktorsayisi = doktorsocketid->size();
+
+        temp ="ACIL DURUM\n"+ QString::number(doktorsayisi) +"," + QString::number(hemsiresayisi) + "\n"  +listPatient->at(row)->getName()+"\n"+kan+"\n"+kalp+"\n"+seker;
+        // acil durumda gonderilen mesaj
+
         qDebug()<<temp;
 
 
