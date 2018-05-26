@@ -124,11 +124,18 @@ MainWindow::MainWindow(QWidget *parent) :
         userSurname->setAlignment(Qt::AlignCenter);
         ui->TableDoktor->setCellWidget(s,2,userSurname);
 
-        QLabel * status= new QLabel(ui->TableDoktor);
-        status->setStyleSheet("font-weight: bold;");
-        status->setText("offline");
-        status->setAlignment(Qt::AlignCenter);
-        ui->TableDoktor->setCellWidget(s,3,status);
+//        QLabel * status= new QLabel(ui->TableDoktor);
+//        status->setStyleSheet("font-weight: bold;");
+//        status->setText("offline");
+//        status->setAlignment(Qt::AlignCenter);
+//        ui->TableDoktor->setCellWidget(s,3,status);
+
+        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/offline3.png");
+
+        QLabel *ofline = new QLabel(ui->TableDoktor);
+        ofline->setPixmap(iconofline);
+        ofline->setAlignment(Qt::AlignCenter);
+        ui->TableDoktor->setCellWidget(s,3,ofline); // Gonder set etme
     }
 
 
@@ -241,16 +248,32 @@ void MainWindow::slotReadyRead(int index)
     qDebug() << enTime.toString();
 
 
-    for(int j = 0 ; j < listNursePatient->size() ;j++){
+    for(int j = 0 ; j < listNursePatient->size()  ;j++){
         int valuePansuman = listNursePatient->at(j)->getPansuman().toInt();
         int valueTansiyon = listNursePatient->at(j)->getTansiyon().toInt();
         listNursePatient->at(j)->setPansuman( QString::number( valuePansuman - enTime.minute() ) );
         listNursePatient->at(j)->setTansiyon(  QString::number(valueTansiyon- enTime.minute() ) );
     }
 
+    QString ack="ack";
 
-    for(int k = 0 ; k < list->size();k++){
-        if( list->at(k)->state() == QTcpSocket::UnconnectedState ){
+    for(int k = 0 ; k < list->size() && index != k ;k++){
+
+        if( send(list->at(k)->socketDescriptor() , ack.toUtf8() , ack.size() , 0) < 0 ){
+//            QLabel * status= new QLabel(ui->TableDoktor);
+//            status->setStyleSheet("font-weight: bold;");
+//            status->setText("offline");                      // online durumu arayuze yaziliyor.
+//            status->setAlignment(Qt::AlignCenter);
+//            ui->TableDoktor->setCellWidget(k,3,status);
+
+            QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/offline3.png");
+
+            QLabel *ofline = new QLabel(ui->TableDoktor);
+            ofline->setPixmap(iconofline);
+            ofline->setAlignment(Qt::AlignCenter);
+            ui->TableDoktor->setCellWidget(k,3,ofline); // Gonder set etme
+
+
 
             for(int l = 0 ; l < doktorsocketid->size(); l++){
 
@@ -269,9 +292,9 @@ void MainWindow::slotReadyRead(int index)
                 }
 
             }
-
-
         }
+
+
     }
 
 
@@ -303,11 +326,19 @@ void MainWindow::slotReadyRead(int index)
                     qDebug() <<"asdasds  " <<strInf.split(" ").at(1);
                     if(listUser->at(i)->getJob() == "Doctor"){
 
-                        QLabel * status= new QLabel(ui->TableDoktor);
-                        status->setStyleSheet("font-weight: bold;");
-                        status->setText("online");                      // online durumu arayuze yaziliyor.
-                        status->setAlignment(Qt::AlignCenter);
-                        ui->TableDoktor->setCellWidget(i,3,status);
+//                        QLabel * status= new QLabel(ui->TableDoktor);
+//                        status->setStyleSheet("font-weight: bold;");
+//                        status->setText("online");                      // online durumu arayuze yaziliyor.
+//                        status->setAlignment(Qt::AlignCenter);
+//                        ui->TableDoktor->setCellWidget(i,3,status);
+
+
+                        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/online3.png");
+
+                        QLabel *ofline = new QLabel(ui->TableDoktor);
+                        ofline->setPixmap(iconofline);
+                        ofline->setAlignment(Qt::AlignCenter);
+                        ui->TableDoktor->setCellWidget(i,3,ofline); // Gonder set etme
 
                          onlineD++;
                         qDebug() << "Girdi";
@@ -331,12 +362,18 @@ void MainWindow::slotReadyRead(int index)
                         break;
                     }else if(listUser->at(i)->getJob() == "Hemsire"){
 
-                        QLabel * status= new QLabel(ui->TableDoktor);
-                        status->setStyleSheet("font-weight: bold;");
-                        status->setText("online");                      // online durumu arayuze yaziliyor.
-                        status->setAlignment(Qt::AlignCenter);
-                        ui->TableDoktor->setCellWidget(i,3,status);
+//                        QLabel * status= new QLabel(ui->TableDoktor);
+//                        status->setStyleSheet("font-weight: bold;");
+//                        status->setText("online");                      // online durumu arayuze yaziliyor.
+//                        status->setAlignment(Qt::AlignCenter);
+//                        ui->TableDoktor->setCellWidget(i,3,status);
 
+                        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/online3.png");
+
+                        QLabel *ofline = new QLabel(ui->TableDoktor);
+                        ofline->setPixmap(iconofline);
+                        ofline->setAlignment(Qt::AlignCenter);
+                        ui->TableDoktor->setCellWidget(i,3,ofline); // Gonder set etme
 
                          onlineH++;
                         send( list->at(index)->socketDescriptor(),&n,sizeof(char),0);
