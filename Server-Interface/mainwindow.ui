@@ -109,13 +109,7 @@ height:12pt;
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QListView" name="listView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+             <widget class="QListWidget" name="listWidget">
               <property name="minimumSize">
                <size>
                 <width>530</width>

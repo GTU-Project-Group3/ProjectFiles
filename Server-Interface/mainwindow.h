@@ -48,6 +48,7 @@ private:
     QList<qintptr> *doktorsocketid;
     QList<qintptr> *hemsiresocketid;
 
+    QList<qintptr> *sockets;
 
 
     QSignalMapper *mapper;

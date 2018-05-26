@@ -18,10 +18,10 @@ public:
 
     }
 
-    QString stringfunction(){
-        QString str= id+","+name+","+surname+","+doctorId+","
-                +nurseId+","+kalp+","+
-                kan+","+seker;
+    QString stringfunction(int doktor , int hemsire , int hastasayisi ){
+        QString str= id+","+name+","+surname+","+kalp+","
+                +kan+","+seker+","+QString::number(doktor)+","+
+                QString::number(hemsire)+","+QString::number(hastasayisi);
 
         return str;
     }

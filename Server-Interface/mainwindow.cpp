@@ -27,12 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
     server = new QTcpServer(this);
     list = new QList<QTcpSocket*>;
 
+
+
     listPatient = new QList<Patient*>;
     listNursePatient = new QList<nursePatient*>;
     listUser = new QList<User*>;
 
     doktorsocketid = new QList<qintptr>;
     hemsiresocketid = new QList<qintptr>;
+    sockets = new QList<qintptr>;
 
     timeEdit = new QTimeEdit();
 
@@ -44,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
      QTime enTime = timeEdit->time();
      qDebug() << enTime.toString();
+
+
+
 
 
     parserPatient();
@@ -211,6 +217,8 @@ void MainWindow::slotNewConnection()
     qWarning() << "newConnection";
     list->append(server->nextPendingConnection());
 
+    sockets->append(list->last()->socketDescriptor());
+
     //here you map each client to its number in the list
     mapper->setMapping(list->last(), list->length()-1);
 
@@ -277,8 +285,10 @@ void MainWindow::slotReadyRead(int index)
 
             for(int l = 0 ; l < doktorsocketid->size(); l++){
 
-                if(list->at(k)->socketDescriptor() == doktorsocketid->at(l)){
+                if(sockets->at(k) == doktorsocketid->at(l) ){
                     doktorsocketid->removeAt(l);
+
+                    qDebug() << "sadasdaisdasd\n";
                     break;
                 }
 
@@ -286,7 +296,7 @@ void MainWindow::slotReadyRead(int index)
 
             for(int m = 0 ; m < hemsiresocketid->size(); m++){
 
-                if(list->at(k)->socketDescriptor() == hemsiresocketid->at(m)){
+                if(sockets->at(k) == hemsiresocketid->at(m)){
                     hemsiresocketid->removeAt(m);
                     break;
                 }
@@ -356,7 +366,7 @@ void MainWindow::slotReadyRead(int index)
                         if(ind < 0)
                             ind += listPatient->size();
 
-                        QString strtemp= listPatient->at(ind)->stringfunction();
+                        QString strtemp= listPatient->at(ind)->stringfunction(doktorsocketid->size() , hemsiresocketid->size() ,listPatient->size());
                         send( list->at(index)->socketDescriptor(),strtemp.toUtf8(),strtemp.size(),0);
                         control = false;
                         break;
@@ -387,7 +397,7 @@ void MainWindow::slotReadyRead(int index)
                         qDebug() << "gelen index" <<ind1;
                         if(ind1 < 0)
                             ind1 += listNursePatient->size();
-                        QString strtemp1= listNursePatient->at(ind1)->stringfunction();
+                        QString strtemp1= listNursePatient->at(ind1)->stringfunction(doktorsocketid->size() , hemsiresocketid->size() ,listPatient->size());
                         send( list->at(index)->socketDescriptor(),strtemp1.toUtf8(),strtemp1.size(),0);
 
                         control = false;
@@ -417,7 +427,7 @@ void MainWindow::slotReadyRead(int index)
             hastaindexi += listPatient->size();
         }
 
-        QString st= listPatient->at(hastaindexi)->stringfunction();
+        QString st= listPatient->at(hastaindexi)->stringfunction(doktorsocketid->size() , hemsiresocketid->size() ,listPatient->size());
 
         send( list->at(index)->socketDescriptor(),st.toUtf8(),st.size(),0);
 
@@ -498,7 +508,7 @@ void MainWindow::slotReadyRead(int index)
         if(hastaindexiNurse < 0){
             hastaindexiNurse += listNursePatient->size();
         }
-        QString st1= listNursePatient->at(hastaindexiNurse)->stringfunction();
+        QString st1= listNursePatient->at(hastaindexiNurse)->stringfunction(doktorsocketid->size() , hemsiresocketid->size() ,listPatient->size());
         qDebug() << st1;
         send( list->at(index)->socketDescriptor(),st1.toUtf8(),st1.size(),0);
     }

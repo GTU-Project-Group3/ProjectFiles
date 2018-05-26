@@ -20,10 +20,10 @@ public:
 
     }
 
-    QString stringfunction(){
+    QString stringfunction(int doktor , int hemsire , int hastasayisi ){
         QString str= id+","+odanumarasi+","+name+","+surname+","+pansuman+","
-                +tansiyon+","+onlineDoc+","+
-                onlineHem+","+hastaSayisi;
+                +tansiyon+","+QString::number(doktor)+","+
+                QString::number(hemsire)+","+QString::number(hastasayisi);
 
         return str;
     }
