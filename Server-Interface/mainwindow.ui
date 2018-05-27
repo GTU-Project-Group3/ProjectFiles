@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>1602</width>
-    <height>630</height>
+    <height>742</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -109,18 +109,15 @@ height:12pt;
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QListWidget" name="listWidget">
-              <property name="minimumSize">
-               <size>
-                <width>530</width>
-                <height>0</height>
-               </size>
+             <widget class="QListWidget" name="message">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>530</width>
-                <height>16777215</height>
-               </size>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
               </property>
              </widget>
             </item>
@@ -244,7 +241,7 @@ height:12pt;
      <x>0</x>
      <y>0</y>
      <width>1602</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

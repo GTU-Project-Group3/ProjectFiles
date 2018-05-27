@@ -17,9 +17,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    t.start();
 
+    msg = new QLabel(ui->message);
+    msg->setText("<style type=text/css>h3{ color:#2b5e88}</style><center><h3>Messages</h3></center><hr>");
+
+
+
+
+    this->flowMess.append(HTMLTable("Rıdvan","Demirci","yukari gel","5"));
+    this->flowMess.append(HTMLTable("Akif","Sarı","gel buraya gel burya","6"));
+    msg->setText(msg->text()+flowMess.at(0)+flowMess.at(1));
+
+
+
     qDebug() << " ı am in main thread";
-    QIcon right("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/right.png");
-    QIcon left("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/left.png");
+    QIcon right("/home/oem/Desktop/ProjectFiles/Server-Interface/right.png");
+    QIcon left("/home/oem/Desktop/ProjectFiles/Server-Interface/left.png");
     ui->right->setIcon(right);
     ui->right->setStyleSheet("border:0pt;");
     ui->left->setIcon(left);
@@ -136,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //        status->setAlignment(Qt::AlignCenter);
 //        ui->TableDoktor->setCellWidget(s,3,status);
 
-        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/offline3.png");
+        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/offline3.png");
 
         QLabel *ofline = new QLabel(ui->TableDoktor);
         ofline->setPixmap(iconofline);
@@ -178,7 +190,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->TableHasta->setItem(var,4,seker); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
 
-        QPixmap iconn("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/update.png");
+        QPixmap iconn("/home/oem/Desktop/ProjectFiles/Server-Interface/update.png");
 
         QLabel *gonder = new QLabel(ui->TableHasta);
         gonder->setPixmap(iconn);
@@ -274,7 +286,7 @@ void MainWindow::slotReadyRead(int index)
 //            status->setAlignment(Qt::AlignCenter);
 //            ui->TableDoktor->setCellWidget(k,3,status);
 
-            QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/offline3.png");
+            QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/offline3.png");
 
             QLabel *ofline = new QLabel(ui->TableDoktor);
             ofline->setPixmap(iconofline);
@@ -343,7 +355,7 @@ void MainWindow::slotReadyRead(int index)
 //                        ui->TableDoktor->setCellWidget(i,3,status);
 
 
-                        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/online3.png");
+                        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/online3.png");
 
                         QLabel *ofline = new QLabel(ui->TableDoktor);
                         ofline->setPixmap(iconofline);
@@ -378,7 +390,7 @@ void MainWindow::slotReadyRead(int index)
 //                        status->setAlignment(Qt::AlignCenter);
 //                        ui->TableDoktor->setCellWidget(i,3,status);
 
-                        QPixmap iconofline("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/online3.png");
+                        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/online3.png");
 
                         QLabel *ofline = new QLabel(ui->TableDoktor);
                         ofline->setPixmap(iconofline);
@@ -520,7 +532,7 @@ void MainWindow::slotReadyRead(int index)
 }
 void MainWindow::parserPatient()
 {
-    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/patients.csv");
+    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/patients.csv");
 
     QString temp;
     string temp1;
@@ -545,7 +557,7 @@ void MainWindow::parserPatient()
 }
 void MainWindow::parserNursePatient()
 {
-    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/nursePatient.csv");
+    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/nursePatient.csv");
 
     QString temp;
     string temp1;
@@ -571,7 +583,7 @@ void MainWindow::parserNursePatient()
 
 void MainWindow::parserUser()
 {
-    ifstream file("/home/akilok/Desktop/projesonhal/ProjectFiles/Server-Interface/users.csv");
+    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/users.csv");
 
     QString temp;
     string temp1;
@@ -662,4 +674,58 @@ void MainWindow::on_left_clicked()
     index--;
     index = index % size;
  ui->stackedWidget->setCurrentIndex(index);
+}
+QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString type){
+    QString html;
+    html ="<html>"
+          "<head>"
+          "<style type=text/css>"
+          "table{"
+
+         "overflow: scroll;"
+
+          "}"
+          "td{"
+          "text-align: left;"
+          "padding:10;"
+          "vertical-align: middle;"
+          "}"
+          ".imguser{"
+          "text-align: center;"
+          "padding:0;"
+          "width:100;"
+          "}"
+          "tr{"
+          "background-color: #f5f5f5;"
+          "}"
+          ".name{"
+           "color: #1d7096;"
+          "font-weight:bold;"
+          "}"
+
+
+          "</style>"
+          "</head>"
+          "<body>"
+
+          "<table border=0 width=290 height=auto style=overflow:scroll>"
+
+
+          "<tr><td rowspan=2 class=imguser>";
+            if(type == "5"){
+            html +="<img src=/home/oem/Desktop/ProjectFiles/Server-Interface/messageDoctor.png>";
+            }else{
+            html +="<img src=/home/oem/Desktop/ProjectFiles/Server-Interface/messageNurse.png>";
+            }
+
+
+            html +="</td>"
+          "<td class=name>Dr. "+name+" "+ Surname+"</td></tr>"
+          "<tr><td>"+msg+"</td></tr>"
+
+           "</table>"
+                         "<hr"
+          "</body></html>";
+
+    return html;
 }

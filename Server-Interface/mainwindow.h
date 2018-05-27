@@ -15,6 +15,7 @@
 #include "mythread.h"
 #include <QTableWidgetItem>
 #include <QTimeEdit>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -30,11 +31,13 @@ public:
     void parserUser();
     void parserPatient();
     void parserNursePatient();
+    QList<QString> flowMess;
+    QString HTMLTable(QString name,QString surName ,QString msg,QString type);
 
 
 private:
     Ui::MainWindow *ui;
-
+    QLabel *msg;
     QTcpServer *server;
     QTcpSocket *socket;
 
