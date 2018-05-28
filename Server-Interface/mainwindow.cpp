@@ -457,7 +457,10 @@ void MainWindow::slotReadyRead(int index)
                 if(list->at(i)->socketDescriptor() == doktorsocketid->at(j)){
                      list->at(i)->waitForReadyRead(11000);
                      doktormesaj = list->at(i)->readAll();
-                     qDebug() << doktormesaj;
+                     qDebug() <<"mesaj: " << doktormesaj;
+                     this->flowMess.append(HTMLTable("Akif","Sarı",doktormesaj,"5"));
+                     qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
+                     msg->setText(flowMess.at(flowMess.size()-1));
 
                      if (hemsiresocketid->size() != 0){
                          send( hemsiresocketid->at(0),doktormesaj.toUtf8(),doktormesaj.size(),0);
@@ -467,12 +470,12 @@ void MainWindow::slotReadyRead(int index)
                 }
             }
         }
+/*
+        list->at(index)->waitForReadyRead(11000);
 
-       // list->at(index)->waitForReadyRead(11000);
-
-     //   doktormesaj = list->at(index)->readAll();
-
-       // qDebug() << doktormesaj;
+        doktormesaj = list->at(index)->readAll();
+        doktormesaj = list->at(index)->readAll();
+        qDebug()<<"message" << doktormesaj;*/
     }
 
     else if(process == "6"){
