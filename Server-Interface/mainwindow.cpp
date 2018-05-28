@@ -45,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     listNursePatient = new QList<nursePatient*>;
     listUser = new QList<User*>;
 
+    doktorinfo = new QList<int>;
+    hemsireinfo = new QList<int>;
+
+
     doktorsocketid = new QList<qintptr>;
     hemsiresocketid = new QList<qintptr>;
     sockets = new QList<qintptr>;
@@ -299,7 +303,7 @@ void MainWindow::slotReadyRead(int index)
 
                 if(sockets->at(k) == doktorsocketid->at(l) ){
                     doktorsocketid->removeAt(l);
-
+                    doktorinfo->removeAt(l);
                     qDebug() << "sadasdaisdasd\n";
                     break;
                 }
@@ -310,6 +314,7 @@ void MainWindow::slotReadyRead(int index)
 
                 if(sockets->at(k) == hemsiresocketid->at(m)){
                     hemsiresocketid->removeAt(m);
+                    hemsireinfo->removeAt(m);
                     break;
                 }
 
@@ -373,6 +378,7 @@ void MainWindow::slotReadyRead(int index)
                         ind = ind % listPatient->size();
 
                         doktorsocketid->append(list->at(index)->socketDescriptor());
+                        doktorinfo->append(i);
 
                         qDebug() << "gelen index" <<ind;
                         if(ind < 0)
@@ -406,6 +412,7 @@ void MainWindow::slotReadyRead(int index)
                         ind1 = ind1 % listNursePatient->size();
 
                         hemsiresocketid->append(list->at(index)->socketDescriptor());
+                        hemsireinfo->append(i);
                         qDebug() << "gelen index" <<ind1;
                         if(ind1 < 0)
                             ind1 += listNursePatient->size();
@@ -458,7 +465,9 @@ void MainWindow::slotReadyRead(int index)
                      list->at(i)->waitForReadyRead(11000);
                      doktormesaj = list->at(i)->readAll();
                      qDebug() <<"mesaj: " << doktormesaj;
-                     this->flowMess.append(HTMLTable("Akif","Sarı",doktormesaj,"5"));
+
+
+                     this->flowMess.append(HTMLTable(listUser->at(doktorinfo->at(j))->getName() ,listUser->at(doktorinfo->at(j))->getSurname(),doktormesaj,"5"));
                      qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
                      msg->setText(flowMess.at(flowMess.size()-1));
 

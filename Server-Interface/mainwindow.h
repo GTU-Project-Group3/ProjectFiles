@@ -53,6 +53,10 @@ private:
 
     QList<qintptr> *sockets;
 
+    QList<int> *doktorinfo;
+    QList<int> *hemsireinfo;
+
+
 
     QSignalMapper *mapper;
     int onlineD = 0;
