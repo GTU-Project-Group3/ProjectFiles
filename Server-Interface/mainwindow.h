@@ -37,7 +37,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QLabel *msg;
     QTcpServer *server;
     QTcpSocket *socket;
 

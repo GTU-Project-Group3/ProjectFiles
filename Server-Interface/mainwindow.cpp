@@ -17,15 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    t.start();
 
-    msg = new QLabel(ui->message);
-    msg->setText("<style type=text/css>h3{ color:#2b5e88}</style><center><h3>Messages</h3></center><hr>");
 
 
 
-
+    this->flowMess.append("<style type=text/css>h3{ color:#2b5e88}</style><center><h3>Messages</h3></center><hr>");
     this->flowMess.append(HTMLTable("Rıdvan","Demirci","yukari gel","5"));
-    this->flowMess.append(HTMLTable("Akif","Sarı","gel buraya gel burya","6"));
-    msg->setText(msg->text()+flowMess.at(0)+flowMess.at(1));
+    this->flowMess.append(HTMLTable("Akif","Sarı","gel buraya gel burya burya burya","6"));
+    ui->msg->setText(flowMess.at(0)+flowMess.at(1)+flowMess.at(2));
 
 
 
@@ -469,7 +467,22 @@ void MainWindow::slotReadyRead(int index)
 
                      this->flowMess.append(HTMLTable(listUser->at(doktorinfo->at(j))->getName() ,listUser->at(doktorinfo->at(j))->getSurname(),doktormesaj,"5"));
                      qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
-                     msg->setText(flowMess.at(flowMess.size()-1));
+                     QString messages = flowMess.at(0);
+                     qDebug() << flowMess.size();
+                     if(flowMess.size() >=7){
+                        int count = flowMess.size()-1;
+                        for (int var = count; var > (count-5); --var) {
+                            messages += flowMess.at(var);
+                        }
+                     }
+                     else{
+                         int count = flowMess.size()-1;
+                         for (int var = count; var > 0; --var) {
+                             messages += flowMess.at(var);
+                         }
+                     }
+
+                     ui->msg->setText(messages);
 
                      if (hemsiresocketid->size() != 0){
                          send( hemsiresocketid->at(0),doktormesaj.toUtf8(),doktormesaj.size(),0);
@@ -500,6 +513,24 @@ void MainWindow::slotReadyRead(int index)
                      list->at(i)->waitForReadyRead(11000);
                      hemsiremesaj = list->at(i)->readAll();
                      qDebug() << hemsiremesaj;
+                     this->flowMess.append(HTMLTable(listUser->at(hemsireinfo->at(j))->getName() ,listUser->at(hemsireinfo->at(j))->getSurname(),hemsiremesaj,"6"));
+                     qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
+                     QString messages = flowMess.at(0);
+                     qDebug() << flowMess.size();
+                     if(flowMess.size() >=7){
+                        int count = flowMess.size()-1;
+                        for (int var = count; var > (count-6); --var) {
+                            messages += flowMess.at(var);
+                        }
+                     }
+                     else{
+                         int count = flowMess.size()-1;
+                         for (int var = count; var > 0; --var) {
+                             messages += flowMess.at(var);
+                         }
+                     }
+
+                     ui->msg->setText(messages);
                      if (doktorsocketid->size() != 0){
                          send( doktorsocketid->at(0),hemsiremesaj.toUtf8(),hemsiremesaj.size(),0);
 
@@ -694,7 +725,6 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
           "<style type=text/css>"
           "table{"
 
-         "overflow: scroll;"
 
           "}"
           "td{"
@@ -708,7 +738,7 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
           "width:100;"
           "}"
           "tr{"
-          "background-color: #f5f5f5;"
+          "background-color:#e3e3e3;"
           "}"
           ".name{"
            "color: #1d7096;"
@@ -723,7 +753,7 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
           "<table border=0 width=290 height=auto style=overflow:scroll>"
 
 
-          "<tr><td rowspan=2 class=imguser>";
+          "<tr><td rowspan=2 class=imguser width=40>";
             if(type == "5"){
             html +="<img src=/home/oem/Desktop/ProjectFiles/Server-Interface/messageDoctor.png>";
             }else{
@@ -732,7 +762,13 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
 
 
             html +="</td>"
-          "<td class=name>Dr. "+name+" "+ Surname+"</td></tr>"
+          "<td class=name>";
+            if(type == "5"){
+                html+="Dr.";
+            }else{
+                html += "Hm.";
+            }
+            html += name+" "+ Surname+"</td></tr>"
           "<tr><td>"+msg+"</td></tr>"
 
            "</table>"
