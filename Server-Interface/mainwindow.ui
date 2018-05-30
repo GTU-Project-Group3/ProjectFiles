@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1602</width>
-    <height>742</height>
+    <height>746</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,6 +33,12 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="page">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4"/>
@@ -47,19 +53,6 @@
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
-            <item>
-             <widget class="QPushButton" name="left">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QLabel" name="label">
               <property name="sizePolicy">
@@ -82,22 +75,6 @@ height:12pt;
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="right">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">height:10;</string>
-              </property>
-              <property name="text">
-               <string/>
               </property>
              </widget>
             </item>
@@ -238,9 +215,18 @@ height:12pt;
      <x>0</x>
      <y>0</y>
      <width>1602</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuSe_enekler">
+    <property name="title">
+     <string>Seçenekler</string>
+    </property>
+    <addaction name="actionDoktor_Ekle"/>
+    <addaction name="actionHem_ire_Ekle"/>
+    <addaction name="actionHasta_Ekle"/>
+   </widget>
+   <addaction name="menuSe_enekler"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -251,8 +237,37 @@ height:12pt;
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionDoktor_Ekle">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Images/messageDoctor.png</normaloff>:/Images/messageDoctor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Doktor Ekle</string>
+   </property>
+  </action>
+  <action name="actionHem_ire_Ekle">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Images/messageNurse.png</normaloff>:/Images/messageNurse.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hemşire Ekle</string>
+   </property>
+  </action>
+  <action name="actionHasta_Ekle">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/Images/messageUser.png</normaloff>:/Images/messageUser.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hasta Ekle</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

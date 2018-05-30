@@ -17,15 +17,21 @@ SOURCES += main.cpp\
     mythread.cpp \
     patient.cpp \
     user.cpp \
-    nursepatient.cpp
+    nursepatient.cpp \
+    dialog.cpp \
+    dialog2.cpp
 
 HEADERS  += mainwindow.h \
     mythread.h \
     patient.h \
     user.h \
-    nursepatient.h
+    nursepatient.h \
+    dialog.h \
+    dialog2.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog.ui \
+    dialog2.ui
 
 DISTFILES += \
     users.csv \
@@ -34,3 +40,6 @@ DISTFILES += \
     update.png \
     right.png \
     left.png
+
+RESOURCES += \
+    resources.qrc

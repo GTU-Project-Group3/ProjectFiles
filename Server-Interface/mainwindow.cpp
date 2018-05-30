@@ -5,6 +5,7 @@
 #include<QTableWidgetItem>
 #include <QTime>
 #include <QTimeEdit>
+#include <sstream>
 
 
 
@@ -28,12 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     qDebug() << " ı am in main thread";
-    QIcon right("/home/oem/Desktop/ProjectFiles/Server-Interface/right.png");
-    QIcon left("/home/oem/Desktop/ProjectFiles/Server-Interface/left.png");
-    ui->right->setIcon(right);
-    ui->right->setStyleSheet("border:0pt;");
-    ui->left->setIcon(left);
-    ui->left->setStyleSheet("border:0pt;");
+    QIcon right("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/right.png");
+    QIcon left("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/left.png");
+    //ui->right->setIcon(right);
+    //ui->right->setStyleSheet("border:0pt;");
+   // ui->left->setIcon(left);
+    //ui->left->setStyleSheet("border:0pt;");
     server = new QTcpServer(this);
     list = new QList<QTcpSocket*>;
 
@@ -150,7 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //        status->setAlignment(Qt::AlignCenter);
 //        ui->TableDoktor->setCellWidget(s,3,status);
 
-        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/offline3.png");
+        QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
 
         QLabel *ofline = new QLabel(ui->TableDoktor);
         ofline->setPixmap(iconofline);
@@ -192,7 +193,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->TableHasta->setItem(var,4,seker); // kan set etme
         /*  *   *   *   *   *   *   *   *       *   **/
 
-        QPixmap iconn("/home/oem/Desktop/ProjectFiles/Server-Interface/update.png");
+        QPixmap iconn("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/update.png");
 
         QLabel *gonder = new QLabel(ui->TableHasta);
         gonder->setPixmap(iconn);
@@ -210,6 +211,59 @@ MainWindow::~MainWindow()
   //  t.wait();
   //  t.exit();
     server->close();
+
+    ofstream file1("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/patients.csv");
+    ofstream file2("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/nursePatient.csv");
+    ofstream file3("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/users.csv");
+
+
+    file1 << "ID,Name,Surname,DoctorID,NurseID,Kalp,Kan,Seker\n";
+    file2 << "ID,OdaNumarasi,Name,Surname,PansumanKalanSure,TansiyonKalanSure,OnlineDoc,OnlineHem,HastaSayisi\n";
+    file3 << "ID,Name,Surname,Job\n";
+
+
+    for( int i = 0 ; i < listPatient->size();i++){
+
+        file1 << listPatient->at(i)->getId().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getName().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getSurname().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getDoctorId().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getNurseId().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getKalp().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getKan().toUtf8().constData() << "," <<
+                 listPatient->at(i)->getSeker().toUtf8().constData() << endl;
+
+
+
+    }
+
+    for( int j = 0 ; j < listNursePatient->size();j++){
+
+        file2 << listNursePatient->at(j)->getId().toUtf8().constData() << "," <<
+                 listNursePatient->at(j)->getOdanumarasi().toUtf8().constData() << "," <<
+                 listNursePatient->at(j)->getName().toUtf8().constData() << "," <<
+                 listNursePatient->at(j)->getSurname().toUtf8().constData() << "," <<
+                 listNursePatient->at(j)->getPansuman().toUtf8().constData() << "," <<
+                 listNursePatient->at(j)->getTansiyon().toUtf8().constData() << "," <<
+                 QString::number(doktorinfo->size()).toUtf8().constData() << "," <<
+                 QString::number(hemsireinfo->size()).toUtf8().constData() << "," <<
+                 QString::number(listNursePatient->size()).toUtf8().constData() << endl;
+
+    }
+
+    for( int l = 0 ; l < listUser->size();l++){
+
+        file3 << listUser->at(l)->getId().toUtf8().constData() << "," <<
+                 listUser->at(l)->getName().toUtf8().constData() << "," <<
+                 listUser->at(l)->getSurname().toUtf8().constData() << "," <<
+                 listUser->at(l)->getJob().toUtf8().constData() << endl;
+
+    }
+
+    file1.close();
+    file2.close();
+    file3.close();
+
     delete list;
     delete ui;
 
@@ -221,6 +275,10 @@ MainWindow::~MainWindow()
 
     delete doktorsocketid;
     delete hemsiresocketid;
+
+    delete dia;
+    delete dia2;
+
 
 }
 
@@ -358,7 +416,7 @@ void MainWindow::slotReadyRead(int index)
 //                        ui->TableDoktor->setCellWidget(i,3,status);
 
 
-                        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/online3.png");
+                        QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/online3.png");
 
                         QLabel *ofline = new QLabel(ui->TableDoktor);
                         ofline->setPixmap(iconofline);
@@ -394,7 +452,7 @@ void MainWindow::slotReadyRead(int index)
 //                        status->setAlignment(Qt::AlignCenter);
 //                        ui->TableDoktor->setCellWidget(i,3,status);
 
-                        QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/online3.png");
+                        QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/online3.png");
 
                         QLabel *ofline = new QLabel(ui->TableDoktor);
                         ofline->setPixmap(iconofline);
@@ -575,7 +633,7 @@ void MainWindow::slotReadyRead(int index)
 }
 void MainWindow::parserPatient()
 {
-    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/patients.csv");
+    ifstream file("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/patients.csv");
 
     QString temp;
     string temp1;
@@ -600,7 +658,7 @@ void MainWindow::parserPatient()
 }
 void MainWindow::parserNursePatient()
 {
-    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/nursePatient.csv");
+    ifstream file("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/nursePatient.csv");
 
     QString temp;
     string temp1;
@@ -626,7 +684,7 @@ void MainWindow::parserNursePatient()
 
 void MainWindow::parserUser()
 {
-    ifstream file("/home/oem/Desktop/ProjectFiles/Server-Interface/users.csv");
+    ifstream file("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/users.csv");
 
     QString temp;
     string temp1;
@@ -718,6 +776,7 @@ void MainWindow::on_left_clicked()
     index = index % size;
  ui->stackedWidget->setCurrentIndex(index);
 }
+
 QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString type){
     QString html;
     html ="<html>"
@@ -755,9 +814,9 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
 
           "<tr><td rowspan=2 class=imguser width=40>";
             if(type == "5"){
-            html +="<img src=/home/oem/Desktop/ProjectFiles/Server-Interface/messageDoctor.png>";
+            html +="<img src=/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/messageDoctor.png>";
             }else{
-            html +="<img src=/home/oem/Desktop/ProjectFiles/Server-Interface/messageNurse.png>";
+            html +="<img src=/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/messageNurse.png>";
             }
 
 
@@ -776,4 +835,154 @@ QString MainWindow::HTMLTable(QString name,QString Surname, QString msg,QString 
           "</body></html>";
 
     return html;
+}
+
+void MainWindow::on_actionHem_ire_Ekle_triggered()
+{
+    dia = new Dialog();
+    dia->show();
+    dia->exec();
+
+    if( dia->getName() == "" || dia->getSurname() == ""){
+
+    }else{
+
+    int id = listUser->size()+1;
+    ui->TableDoktor->setRowCount(id);
+
+    listUser->append(new User(QString::number(id),dia->getName(),dia->getSurname(),"Hemsire"));
+
+    QLabel * Job= new QLabel(ui->TableDoktor);
+    Job->setStyleSheet("font-weight: bold;");
+    Job->setText(listUser->at(id-1)->getJob());
+    Job->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,0,Job);
+
+    QLabel * userName= new QLabel(ui->TableDoktor);
+    userName->setStyleSheet("font-weight: bold;");
+    userName->setText(listUser->at(id-1)->getName());
+    userName->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,1,userName);
+
+    QLabel * userSurname= new QLabel(ui->TableDoktor);
+    userSurname->setStyleSheet("font-weight: bold;");
+    userSurname->setText(listUser->at(id-1)->getSurname());
+    userSurname->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,2,userSurname);
+
+    QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
+
+    QLabel *ofline = new QLabel(ui->TableDoktor);
+    ofline->setPixmap(iconofline);
+    ofline->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,3,ofline); // Gonder set etme
+}
+}
+
+void MainWindow::on_actionDoktor_Ekle_triggered()
+{
+    dia = new Dialog();
+    dia->show();
+    dia->exec();
+
+    if(  dia->getName() == "" || dia->getSurname() == ""){
+
+    }else{
+
+    int id = listUser->size()+1;
+    ui->TableDoktor->setRowCount(id);
+
+    listUser->append(new User(QString::number(id),dia->getName(),dia->getSurname(),"Doctor"));
+
+    QLabel * Job= new QLabel(ui->TableDoktor);
+    Job->setStyleSheet("font-weight: bold;");
+    Job->setText(listUser->at(id-1)->getJob());
+    Job->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,0,Job);
+
+    QLabel * userName= new QLabel(ui->TableDoktor);
+    userName->setStyleSheet("font-weight: bold;");
+    userName->setText(listUser->at(id-1)->getName());
+    userName->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,1,userName);
+
+    QLabel * userSurname= new QLabel(ui->TableDoktor);
+    userSurname->setStyleSheet("font-weight: bold;");
+    userSurname->setText(listUser->at(id-1)->getSurname());
+    userSurname->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,2,userSurname);
+
+    QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
+
+    QLabel *ofline = new QLabel(ui->TableDoktor);
+    ofline->setPixmap(iconofline);
+    ofline->setAlignment(Qt::AlignCenter);
+    ui->TableDoktor->setCellWidget(id-1,3,ofline); // Gonder set etme
+
+    }
+}
+
+void MainWindow::on_actionHasta_Ekle_triggered()
+{
+    dia2 = new Dialog2();
+    dia2->show();
+    dia2->exec();
+
+    if(dia2->getName() == "" || dia2->getSurname() == "" || dia2->getDoktorid() == "" || dia2->getNurseid() == "" ||
+            dia2->getOda() == "" || dia2->getPansuman() == "" || dia2->getTansiyon() == "" || dia2->getKalp() == "" ||
+            dia2->getKan() == "" || dia2->getSeker() == ""){
+
+    }
+    else{
+
+    int id = listPatient->size()+1;
+    ui->TableHasta->setRowCount(id);
+
+
+    listPatient->append(new Patient(QString::number(id),dia2->getName(),dia2->getSurname(),QString::number(doktorinfo->size()),QString::number(hemsireinfo->size()),
+                                    dia2->getKalp(), dia2->getKan(),dia2->getSeker()));
+
+
+    listNursePatient->append(new nursePatient(QString::number(id) , dia2->getOda(),dia2->getName(),dia2->getSurname(),
+                                              dia2->getPansuman(),dia2->getTansiyon(), QString::number( doktorinfo->size())
+                                              , QString::number(hemsireinfo->size()) , QString::number( listPatient->size())));
+
+
+    QLabel * label = new QLabel(ui->TableHasta);
+    label->setStyleSheet("font-weight: bold;");
+    label->setText(listPatient->at(id-1)->getName());
+    label->setAlignment(Qt::AlignCenter);
+
+    ui->TableHasta->setCellWidget(id-1,0,label); // isimleri set etme
+    /* ** **    *   *   *   *       *   *   */
+    QLabel * Surname = new QLabel(ui->TableHasta);
+    Surname->setText(listPatient->at(id-1)->getSurname());
+    Surname->setStyleSheet("font-weight: bold;");
+    Surname->setAlignment(Qt::AlignCenter);
+    ui->TableHasta->setCellWidget(id-1,1,Surname); // soy isimleri set etme
+    /*  *   *   *   *   *   *   *   *       *   **/
+    QTableWidgetItem * kalp = new QTableWidgetItem();
+    kalp->setText(listPatient->at(id-1)->getKalp());
+    kalp->setTextAlignment(Qt::AlignCenter);
+    ui->TableHasta->setItem(id-1,2,kalp); // kalpler set etme
+    /*  *   *   *   *   *   *   *   *       *   **/
+    QTableWidgetItem * kan = new QTableWidgetItem();
+    kan->setText(listPatient->at(id-1)->getKan());
+    kan->setTextAlignment(Qt::AlignCenter);
+    ui->TableHasta->setItem(id-1,3,kan); // kan set etme
+    /*  *   *   *   *   *   *   *   *       *   **/
+    QTableWidgetItem * seker = new QTableWidgetItem();
+    seker->setText(listPatient->at(id-1)->getSeker());
+    seker->setTextAlignment(Qt::AlignCenter);
+    ui->TableHasta->setItem(id-1,4,seker); // kan set etme
+    /*  *   *   *   *   *   *   *   *       *   **/
+
+    QPixmap iconn("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/update.png");
+
+    QLabel *gonder = new QLabel(ui->TableHasta);
+    gonder->setPixmap(iconn);
+    gonder->setAlignment(Qt::AlignCenter);
+    ui->TableHasta->setCellWidget(id-1,5,gonder); // Gonder set etme
+
+    }
 }

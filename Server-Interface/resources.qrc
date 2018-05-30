@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>messageNurse.png</file>
+        <file>messageDoctor.png</file>
+        <file>messageUser.png</file>
+    </qresource>
+</RCC>

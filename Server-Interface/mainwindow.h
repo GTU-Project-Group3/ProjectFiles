@@ -16,6 +16,8 @@
 #include <QTableWidgetItem>
 #include <QTimeEdit>
 #include <QLabel>
+#include "dialog.h"
+#include "dialog2.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +39,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Dialog *dia;
+    Dialog2 *dia2;
+
     QTcpServer *server;
     QTcpSocket *socket;
 
@@ -72,6 +77,9 @@ private slots:
     void on_TableHasta_cellClicked(int row, int column);
     void on_right_clicked();
     void on_left_clicked();
+    void on_actionHem_ire_Ekle_triggered();
+    void on_actionDoktor_Ekle_triggered();
+    void on_actionHasta_Ekle_triggered();
 };
 
 
