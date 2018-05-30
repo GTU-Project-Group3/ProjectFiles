@@ -514,95 +514,95 @@ void MainWindow::slotReadyRead(int index)
         QString doktormesaj;
 
 
-        for(int i = 0 ; i < list->size(); i++){
+                for(int i = 0 ; i < list->size(); i++){
 
-            for(int j = 0 ; j < doktorsocketid->size() ; j++){
-                if(list->at(i)->socketDescriptor() == doktorsocketid->at(j)){
-                     list->at(i)->waitForReadyRead(11000);
-                     doktormesaj = list->at(i)->readAll();
-                     qDebug() <<"mesaj: " << doktormesaj;
+                    for(int j = 0 ; j < doktorsocketid->size() ; j++){
+                        if(list->at(i)->socketDescriptor() == doktorsocketid->at(j)){
+                             list->at(i)->waitForReadyRead(11000);
+                             doktormesaj = list->at(i)->readAll();
+                             qDebug() <<"mesaj: " << doktormesaj;
 
 
-                     this->flowMess.append(HTMLTable(listUser->at(doktorinfo->at(j))->getName() ,listUser->at(doktorinfo->at(j))->getSurname(),doktormesaj,"5"));
-                     qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
-                     QString messages = flowMess.at(0);
-                     qDebug() << flowMess.size();
-                     if(flowMess.size() >=7){
-                        int count = flowMess.size()-1;
-                        for (int var = count; var > (count-5); --var) {
-                            messages += flowMess.at(var);
+                             this->flowMess.append(HTMLTable(listUser->at(doktorinfo->at(j))->getName() ,listUser->at(doktorinfo->at(j))->getSurname(),doktormesaj,"5"));
+                             qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
+                             QString messages = flowMess.at(0);
+                             qDebug() << flowMess.size();
+                             if(flowMess.size() >=7){
+                                int count = flowMess.size()-1;
+                                for (int var = count; var > (count-5); --var) {
+                                    messages += flowMess.at(var);
+                                }
+                             }
+                             else{
+                                 int count = flowMess.size()-1;
+                                 for (int var = count; var > 0; --var) {
+                                     messages += flowMess.at(var);
+                                 }
+                             }
+
+                             ui->msg->setText(messages);
+
+                             if (hemsiresocketid->size() != 0){
+                                 send( hemsiresocketid->at(0),doktormesaj.toUtf8(),doktormesaj.size(),0);
+
+                             }
+                             break;
                         }
-                     }
-                     else{
-                         int count = flowMess.size()-1;
-                         for (int var = count; var > 0; --var) {
-                             messages += flowMess.at(var);
-                         }
-                     }
-
-                     ui->msg->setText(messages);
-
-                     if (hemsiresocketid->size() != 0){
-                         send( hemsiresocketid->at(0),doktormesaj.toUtf8(),doktormesaj.size(),0);
-
-                     }
-                     break;
+                    }
                 }
-            }
-        }
-/*
-        list->at(index)->waitForReadyRead(11000);
+        /*
+                list->at(index)->waitForReadyRead(11000);
 
-        doktormesaj = list->at(index)->readAll();
-        doktormesaj = list->at(index)->readAll();
-        qDebug()<<"message" << doktormesaj;*/
+                doktormesaj = list->at(index)->readAll();
+                doktormesaj = list->at(index)->readAll();
+                qDebug()<<"message" << doktormesaj;*/
     }
 
     else if(process == "6"){
 
         QString hemsiremesaj;
 
-        //list->at(i)->ConnectingState
+               //list->at(i)->ConnectingState
 
-        for(int i = 0 ; i < list->size(); i++){
+               for(int i = 0 ; i < list->size(); i++){
 
-            for(int j = 0 ; j < hemsiresocketid->size() ; j++){
-                if(list->at(i)->socketDescriptor() == hemsiresocketid->at(j)){
-                     list->at(i)->waitForReadyRead(11000);
-                     hemsiremesaj = list->at(i)->readAll();
-                     qDebug() << hemsiremesaj;
-                     this->flowMess.append(HTMLTable(listUser->at(hemsireinfo->at(j))->getName() ,listUser->at(hemsireinfo->at(j))->getSurname(),hemsiremesaj,"6"));
-                     qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
-                     QString messages = flowMess.at(0);
-                     qDebug() << flowMess.size();
-                     if(flowMess.size() >=7){
-                        int count = flowMess.size()-1;
-                        for (int var = count; var > (count-6); --var) {
-                            messages += flowMess.at(var);
-                        }
-                     }
-                     else{
-                         int count = flowMess.size()-1;
-                         for (int var = count; var > 0; --var) {
-                             messages += flowMess.at(var);
-                         }
-                     }
+                   for(int j = 0 ; j < hemsiresocketid->size() ; j++){
+                       if(list->at(i)->socketDescriptor() == hemsiresocketid->at(j)){
+                            list->at(i)->waitForReadyRead(11000);
+                            hemsiremesaj = list->at(i)->readAll();
+                            qDebug() << hemsiremesaj;
+                            this->flowMess.append(HTMLTable(listUser->at(hemsireinfo->at(j))->getName() ,listUser->at(hemsireinfo->at(j))->getSurname(),hemsiremesaj,"6"));
+                            qDebug()<<"html" <<flowMess.at(flowMess.size()-1);
+                            QString messages = flowMess.at(0);
+                            qDebug() << flowMess.size();
+                            if(flowMess.size() >=7){
+                               int count = flowMess.size()-1;
+                               for (int var = count; var > (count-6); --var) {
+                                   messages += flowMess.at(var);
+                               }
+                            }
+                            else{
+                                int count = flowMess.size()-1;
+                                for (int var = count; var > 0; --var) {
+                                    messages += flowMess.at(var);
+                                }
+                            }
 
-                     ui->msg->setText(messages);
-                     if (doktorsocketid->size() != 0){
-                         send( doktorsocketid->at(0),hemsiremesaj.toUtf8(),hemsiremesaj.size(),0);
+                            ui->msg->setText(messages);
+                            if (doktorsocketid->size() != 0){
+                                send( doktorsocketid->at(0),hemsiremesaj.toUtf8(),hemsiremesaj.size(),0);
 
-                     }
-                     break;
-                }
-            }
-        }
+                            }
+                            break;
+                       }
+                   }
+               }
 
-      //  list->at(index)->waitForReadyRead(11000);
+             //  list->at(index)->waitForReadyRead(11000);
 
-      //  hemsiremesaj = list->at(index)->readAll();
+             //  hemsiremesaj = list->at(index)->readAll();
 
-       // qDebug() << hemsiremesaj;
+              // qDebug() << hemsiremesaj;
     }
 
 
