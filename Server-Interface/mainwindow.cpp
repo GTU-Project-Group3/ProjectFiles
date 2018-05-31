@@ -318,6 +318,7 @@ void MainWindow::slotReadyRead(int index)
 
    // QByteArray template1;
 
+
     process =  list->at(index)->readAll();
 
     qDebug() << process;
@@ -335,18 +336,19 @@ void MainWindow::slotReadyRead(int index)
         listNursePatient->at(j)->setTansiyon(  QString::number(valueTansiyon- enTime.minute() ) );
     }
 
-    QString ack="ack";
+    QString ack="";
 
-    for(int k = 0 ; k < list->size() && index != k ;k++){
-
-        if( send(list->at(k)->socketDescriptor() , ack.toUtf8() , ack.size() , 0) < 0 ){
+    for(int k = 0 ; k < list->size()  ; k++){
+    qDebug() << "11111111111" << endl;
+       // if( send(list->at(k)->socketDescriptor() , ack.toUtf8() , ack.size() , 0) < 0 )
+        if( list->at(k)->socketDescriptor()  < 0 ){
 //            QLabel * status= new QLabel(ui->TableDoktor);
 //            status->setStyleSheet("font-weight: bold;");
 //            status->setText("offline");                      // online durumu arayuze yaziliyor.
 //            status->setAlignment(Qt::AlignCenter);
 //            ui->TableDoktor->setCellWidget(k,3,status);
 
-            QPixmap iconofline("/home/oem/Desktop/ProjectFiles/Server-Interface/offline3.png");
+            /*QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
 
             QLabel *ofline = new QLabel(ui->TableDoktor);
             ofline->setPixmap(iconofline);
@@ -354,23 +356,50 @@ void MainWindow::slotReadyRead(int index)
             ui->TableDoktor->setCellWidget(k,3,ofline); // Gonder set etme
 
 
-
-            for(int l = 0 ; l < doktorsocketid->size(); l++){
+*/
+            qDebug() << "2222222" << endl;
+            for(int l = 0 ; l < doktorsocketid->size() ; l++){
 
                 if(sockets->at(k) == doktorsocketid->at(l) ){
+qDebug() << "3333" << endl;
+
+                    QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
+
+                    QLabel *ofline = new QLabel(ui->TableDoktor);
+                    ofline->setPixmap(iconofline);
+                    ofline->setAlignment(Qt::AlignCenter);
+                    ui->TableDoktor->setCellWidget(doktorinfo->at(l),3,ofline); // Gonder set etme
+
+
+                    sockets->insert(k,-1);
+
                     doktorsocketid->removeAt(l);
+                    qDebug() << "44444" << endl;
                     doktorinfo->removeAt(l);
+                    qDebug() << "55555" << endl;
+                    //sockets->at(k) = list->at(k);
                     qDebug() << "sadasdaisdasd\n";
                     break;
                 }
 
             }
 
-            for(int m = 0 ; m < hemsiresocketid->size(); m++){
+            for(int m = 0 ; m < hemsiresocketid->size() ; m++){
+qDebug() << "666" << endl;
 
                 if(sockets->at(k) == hemsiresocketid->at(m)){
+                    QPixmap iconofline("/home/akilok/Desktop/aaa/ProjectFiles/Server-Interface/offline3.png");
+qDebug() << "6666" << endl;
+
+sockets->insert(k,-1);
+                    QLabel *ofline = new QLabel(ui->TableDoktor);
+                    ofline->setPixmap(iconofline);
+                    ofline->setAlignment(Qt::AlignCenter);
+                    ui->TableDoktor->setCellWidget(hemsireinfo->at(m),3,ofline); // Gonder set etme
+
                     hemsiresocketid->removeAt(m);
                     hemsireinfo->removeAt(m);
+                    //sockets55555->at(k) = list->at(k);
                     break;
                 }
 
@@ -496,6 +525,7 @@ void MainWindow::slotReadyRead(int index)
 
         list->at(index)->waitForReadyRead(1000);
         hastaindexi = (tr(list->at(index)->readAll())).toInt();
+        qDebug() << "indisss" << hastaindexi << endl;
         hastaindexi = hastaindexi%listPatient->size();
 
         if(hastaindexi < 0){
@@ -513,12 +543,15 @@ void MainWindow::slotReadyRead(int index)
 
         QString doktormesaj;
 
+        qDebug() << "doktorr asdas" << endl;
 
                 for(int i = 0 ; i < list->size(); i++){
 
+                    qDebug() << "doktorr asdas" << endl;
+
                     for(int j = 0 ; j < doktorsocketid->size() ; j++){
                         if(list->at(i)->socketDescriptor() == doktorsocketid->at(j)){
-                             list->at(i)->waitForReadyRead(11000);
+                             list->at(i)->waitForReadyRead(17000);
                              doktormesaj = list->at(i)->readAll();
                              qDebug() <<"mesaj: " << doktormesaj;
 
@@ -564,11 +597,12 @@ void MainWindow::slotReadyRead(int index)
 
                //list->at(i)->ConnectingState
 
+        qDebug() << "hemsiremesaj asdas" << endl;
                for(int i = 0 ; i < list->size(); i++){
-
+ qDebug() << "hemsiremesaj asdas" << endl;
                    for(int j = 0 ; j < hemsiresocketid->size() ; j++){
                        if(list->at(i)->socketDescriptor() == hemsiresocketid->at(j)){
-                            list->at(i)->waitForReadyRead(11000);
+                            list->at(i)->waitForReadyRead(17000);
                             hemsiremesaj = list->at(i)->readAll();
                             qDebug() << hemsiremesaj;
                             this->flowMess.append(HTMLTable(listUser->at(hemsireinfo->at(j))->getName() ,listUser->at(hemsireinfo->at(j))->getSurname(),hemsiremesaj,"6"));
@@ -616,6 +650,7 @@ void MainWindow::slotReadyRead(int index)
         list->at(index)->waitForReadyRead(1000);
 
         nurseindex = (list->at(index)->readAll());
+         qDebug() << "nurseee  " << nurseindex ;
         hastaindexiNurse = nurseindex.toInt();
         hastaindexiNurse = hastaindexiNurse%listNursePatient->size();
         if(hastaindexiNurse < 0){
